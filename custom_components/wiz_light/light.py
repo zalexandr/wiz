@@ -429,7 +429,7 @@ class WizBulb(LightEntity):
             return kelvin
         except WizLightNotKnownBulb:
             _LOGGER.info("Kelvin is not present in the library. Fallback to 6500")
-            return 6500
+            return color_utils.color_temperature_kelvin_to_mired(6500)
 
     def kelvin_min_map(self):
         """Map the minimum kelvin from YAML."""
@@ -439,5 +439,5 @@ class WizBulb(LightEntity):
                 self._bulbtype.kelvin_range.min
             )
         except WizLightNotKnownBulb:
-            _LOGGER.info("Kelvin is not present in the library. Fallback to 2500")
-            return 2500
+            _LOGGER.info("Kelvin is not present in the library. Fallback to 2200")
+            return color_utils.color_temperature_kelvin_to_mired(2200)
