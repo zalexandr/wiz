@@ -384,18 +384,20 @@ class WizBulb(LightEntity):
 
     async def get_bulb_type(self):
         """Get the bulb type."""
-        if self._bulbtype is None:
-            try:
-                self._bulbtype = await self._light.get_bulbtype()
-                _LOGGER.info(
-                    "[wizlight %s] Initiate the WiZ bulb as %s",
-                    self._light.ip,
-                    self._bulbtype.name,
-                )
-            except WizLightTimeOutError:
-                _LOGGER.debug(
-                    "[wizlight %s] Bulbtype update failed - Timeout", self._light.ip
-                )
+        if self._bulbtype is not None:
+            return self._bulbtype
+
+        try:
+            self._bulbtype = await self._light.get_bulbtype()
+            _LOGGER.info(
+                "[wizlight %s] Initiate the WiZ bulb as %s",
+                self._light.ip,
+                self._bulbtype.name,
+            )
+        except WizLightTimeOutError:
+            _LOGGER.debug(
+                "[wizlight %s] Bulbtype update failed - Timeout", self._light.ip
+            )
 
     def update_scene_list(self):
         """Update the scene list."""
