@@ -70,7 +70,7 @@ This component has a dependency on `pywizlight` which will be installed automati
 
 The table below is only a reference. All bulbs from WiZ are supported.
 
-# Bulb Type detection:
+### Bulb Type detection:
 ```
 e.g. ESP01_SHDW1C_31
 ESP01 -- defines the module family (WiFi only bulb in this case)
