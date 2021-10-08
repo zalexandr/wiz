@@ -4,19 +4,19 @@
 
 # :bulb: wiz_light - V 0.4.2 (out for testing)
 
-One short note: If you have multible (>5) bulb connected to the HASS, please try to bring all online if you restart the HASS service/container.
-Becuase on older HASS version the startup can be slowed down if multible bulbs are offline.
+One short note: If you have multiple (>5) bulb connected to the HASS, please try to bring all online if you restart the HASS service/container.
+Because on older HASS version the startup can be slowed down if multiple bulbs are offline.
 
-There is an issue with bulb when these are offline on start up and swichted on if HASS is started. The bulbs will stay in "not available". This seems so be a bug :wink:. **To fix that you have to switch the entry to "disabled" and than back to "enabled" via the UI (small :gear: in the upper left corner of the UI card).**
+There is an issue with bulb when these are offline on start up and swichted on if HASS is started. The bulbs will stay in "not available". This seems to be a bug :wink:. **To fix that you have to switch the entry to "disabled" and than back to "enabled" via the UI (small :gear: in the upper left corner of the UI card).**
 
 There are changes in the bulb detection function. I can't test all possible bulb types in real because I have only two of them :wink:.
-TW (Tunable White) bulbs seems tho had some issues with the effects. Should be fixed in the current branch.
+TW (Tunable White) bulbs seems to have some issues with the effects. Should be fixed in the current branch.
 
 ## :muscle: Change Log
-- Workaround in 0.4.2: The bulb FW 1.22.0 breaks the automated kelvin detectioon. A workaround was added. Final solution still open.
-- Small fix in 0.4.1: The Arry for the bulb effects now mapped correctly.
+- Workaround in 0.4.2: The bulb FW 1.22.0 breaks the automated kelvin detection. A workaround was added. Final solution still open.
+- Small fix in 0.4.1: The Array for the bulb effects now mapped correctly.
 - New in 0.4.: The bulb type and featerus will be autodetected.
-- New in 0.4.: Fixing some other small issues. Updat to pywizlight 0.4.5
+- New in 0.4.: Fixing some other small issues. Update to pywizlight 0.4.5
 - Working ConfigFlow: Now the bulbs can be configured via UI
 - Devices Registration: The Bulb now shows up as "Light" device
 - [BETA] The colors now "correct" regarding the HS to RGB-CW conversation in the WiZ app. Thanks to @brettonw for incredible work!(should be tested with non-RGB and non-Kelvin bulbs!! )
@@ -37,11 +37,10 @@ To fix bulbs which are stuck in a "unavailability" if they are offline at startu
 ### What is declined or rejected:
 
 - Change of the speed of the transition from on to off and off->on. This is not supported via the UDP API and can only be configured via WiZ App.
-- Custom Effekts will not be implemented in the HASS integration becaus of missing feature in HASS.
 
 ## :information_source: [Development Log](https://github.com/sbidy/wiz_light/discussions/78)
 
-Here you can found some news and updates!!
+Here you can find some news and updates!!
 I try to create a kind of Development Log to trace changes/decissions and made the current overall development status transparent to you!!
 
 ## :warning: Discussions
@@ -50,15 +49,15 @@ If you have questions or other comments please use the **new** [Discussions Boar
 
 ## :blue_heart: Kudos and contributions
 
-Thank you [@angadsingh](https://github.com/angadsingh) for make such incredible improvements!
+Thank you [@angadsingh](https://github.com/angadsingh) for making such incredible improvements!
 
-Thanks to [@simora](https://github.com/simora) for create a HA Switch <-> WiZ Plug integration!
+Thanks to [@simora](https://github.com/simora) for creating a HA Switch <-> WiZ Plug integration!
 
 Thanks to [@jarpatus](https://github.com/jarpatus) for the feedback and enhancements!
 
 Thanks to [@ChrisLizon](https://github.com/ChrisLizon) for the review, feedbacks and improvements!
 
-Thanks to [@brettonw](https://github.com/brettonw) for improveing the RGB-CW to HU tranistion!
+Thanks to [@brettonw](https://github.com/brettonw) for improving the RGB-CW to HU tranistion!
 
 Thanks to [@vodovozovge](https://github.com/vodovozovge) for the "insider support" for the community!
 
@@ -82,6 +81,7 @@ RGB -- Fullstack bulb
 31 -- Related to the hardware revision
 ```
 
+
 | Bulb Type          | Dimmer | Color Temp | Effects | RGB | Tested? | Example Product                                                                                                  |
 | ------------------ | ------ | ---------- | ------- | --- | ------- | ---------------------------------------------------------------------------------------------------------------- |
 | ESP01_SHDW_01      | ✔️     |            |         |     |         |                                                                                                                  |
@@ -103,6 +103,9 @@ RGB -- Fullstack bulb
 ## Pull request in HA core
 
 https://github.com/home-assistant/core/pull/44779
+
+## Installation via HACS (Home Assistant Community Store)
+[![Hacs Installtion](http://img.youtube.com/vi/_LTA07ENpBE/0.jpg)](http://www.youtube.com/watch?v=_LTA07ENpBE "Wiz Lightbulbs and Home Assistant walkthrough - 2021 Phillips Hue Killer?")
 
 ## Install for testing
 
