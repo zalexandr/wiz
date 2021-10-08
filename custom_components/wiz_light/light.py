@@ -330,6 +330,7 @@ class WizBulb(LightEntity):
         """Update the temperature."""
         colortemp = self._light.state.get_colortemp()
         if colortemp is None or colortemp == 0:
+            self._temperature = None
             return
         try:
             _LOGGER.debug(
@@ -345,6 +346,10 @@ class WizBulb(LightEntity):
 
     def update_color(self):
         """Update the hs color."""
+        colortemp = self._light.state.get_colortemp()
+        if colortemp is not None and colortemp != 0:
+            self._hscolor = None
+            return
         if self._light.state.get_rgb() is None:
             return
         try:
