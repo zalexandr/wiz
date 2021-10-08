@@ -65,7 +65,22 @@ Thanks to [@vodovozovge](https://github.com/vodovozovge) for the "insider suppor
 
 This component has a dependency on `pywizlight` which will be installed automatically by Home Assistant.
 
-## :zap: Bulbs - the library was moved to the [pywizlight](https://github.com/sbidy/pywizlight) project!
+## :zap: Bulbs - the library was moved to the [pywizlight](https://github.com/sbidy/pywizlight)
+
+The table below is only a reference. All bulbs from WiZ are supported.
+
+### Bulb Type detection:
+```
+e.g. ESP01_SHDW1C_31
+ESP01 -- defines the module family (WiFi only bulb in this case)
+SH -- Single Head light (most bulbs are single heads) / LED Strip
+TW -- Tunable White - can only control CCT and dimming; no color
+DW -- Dimmable White (most filament bulbs)
+RGB -- Fullstack bulb
+1C -- Specific to the hardware - defines PWM frequency + way of controlling CCT temperature
+31 -- Related to the hardware revision
+```
+
 
 | Bulb Type          | Dimmer | Color Temp | Effects | RGB | Tested? | Example Product                                                                                                  |
 | ------------------ | ------ | ---------- | ------- | --- | ------- | ---------------------------------------------------------------------------------------------------------------- |
