@@ -54,6 +54,3 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_import(self, import_config):
         """Import from config."""
         return await self.async_step_user(user_input=import_config)
-
-
-

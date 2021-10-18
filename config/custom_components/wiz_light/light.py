@@ -61,8 +61,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     try:
         bulb = wizlight(ip_address)
         # Add devices
-        async_add_entities(
-            [WizBulb(bulb, config[CONF_NAME])], update_before_add=True)
+        async_add_entities([WizBulb(bulb, config[CONF_NAME])], update_before_add=True)
         _LOGGER.debug("Add device")
     except WizLightConnectionError:
         _LOGGER.error("Can't add bulb with ip %s.", ip_address)
@@ -79,8 +78,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     # Register services
     async def async_update(call=None):
         """Trigger update."""
-        _LOGGER.debug("[wizlight %s] update requested",
-                      entry.data.get(CONF_HOST))
+        _LOGGER.debug("[wizlight %s] update requested", entry.data.get(CONF_HOST))
         await wizbulb.async_update()
         await wizbulb.async_update_ha_state()
 
@@ -170,8 +168,7 @@ class WizBulb(LightEntity, RestoreEntity):
 
             sceneid = None
             if ATTR_EFFECT in kwargs:
-                sceneid = self._light.get_id_from_scene_name(
-                    kwargs[ATTR_EFFECT])
+                sceneid = self._light.get_id_from_scene_name(kwargs[ATTR_EFFECT])
 
             if sceneid == 1000:  # rhythm
                 pilot = PilotBuilder()
@@ -242,13 +239,13 @@ class WizBulb(LightEntity, RestoreEntity):
                 e_list = []
                 for key in [6, 9, 10, 11, 12, 13, 14, 15, 16, 18, 29, 30, 31, 32]:
                     # Array counting correction
-                    e_list.append(self._scenes[key-1])
+                    e_list.append(self._scenes[key - 1])
                 return e_list
             if self._bulbtype.bulb_type == BulbClass.DW:
                 e_list = []
                 for key in [9, 10, 13, 14, 29, 30, 31, 32]:
                     # Array counting correction
-                    e_list.append(self._scenes[key-1])
+                    e_list.append(self._scenes[key - 1])
                 return e_list
             # Must be RGB with all
         return self._scenes
@@ -352,8 +349,7 @@ class WizBulb(LightEntity, RestoreEntity):
             _LOGGER.debug(
                 "[wizlight %s] kelvin from the bulb: %s", self._light.ip, colortemp
             )
-            temperature = color_utils.color_temperature_kelvin_to_mired(
-                colortemp)
+            temperature = color_utils.color_temperature_kelvin_to_mired(colortemp)
             self._temperature = temperature
 
         # pylint: disable=broad-except
@@ -414,8 +410,7 @@ class WizBulb(LightEntity, RestoreEntity):
         try:
             self._mac = await self._light.getMac()
         except WizLightTimeOutError:
-            _LOGGER.debug(
-                "[wizlight %s] Mac update failed - Timeout", self._light.ip)
+            _LOGGER.debug("[wizlight %s] Mac update failed - Timeout", self._light.ip)
 
     def featuremap(self):
         """Map the features from WizLight Class."""
@@ -449,8 +444,7 @@ class WizBulb(LightEntity, RestoreEntity):
                 )
                 return kelvin
         except WizLightNotKnownBulb:
-            _LOGGER.info(
-                "Kelvin is not present in the library. Fallback to 6500")
+            _LOGGER.info("Kelvin is not present in the library. Fallback to 6500")
             return 6500
 
     def kelvin_min_map(self):
@@ -462,6 +456,5 @@ class WizBulb(LightEntity, RestoreEntity):
                     self._bulbtype.kelvin_range.min
                 )
         except WizLightNotKnownBulb:
-            _LOGGER.info(
-                "Kelvin is not present in the library. Fallback to 2500")
+            _LOGGER.info("Kelvin is not present in the library. Fallback to 2500")
             return 2500
