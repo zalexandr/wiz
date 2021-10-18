@@ -1,0 +1,22 @@
+"""Config flow for SONOS."""
+import logging
+import asyncio
+from async_timeout import timeout
+
+from homeassistant import config_entries
+from homeassistant.helpers import config_entry_flow
+from pywizlight.discovery import discover_lights
+from .const import DOMAIN
+
+_LOGGER = logging.getLogger(__name__)
+
+async def _async_has_devices(hass):
+    """Return if there are devices that can be discovered."""
+    async with timeout(100):
+        bulbs = await discover_lights(broadcast_space="192.168.178.255")
+    return len(bulbs) > 0
+
+
+config_entry_flow.register_discovery_flow(
+    DOMAIN, "Wiz Light", _async_has_devices, config_entries.CONN_CLASS_LOCAL_PUSH
+)
