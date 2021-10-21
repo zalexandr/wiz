@@ -2,8 +2,8 @@
 from datetime import timedelta
 import logging
 
-from pywizlight import SCENES, PilotBuilder, wizlight
-from pywizlight.bulblibrary import BulbType, BulbClass
+from pywizlight import PilotBuilder, wizlight
+from pywizlight.bulblibrary import BulbType
 from pywizlight.exceptions import (
     WizLightConnectionError,
     WizLightNotKnownBulb,
@@ -101,7 +101,7 @@ class WizBulb(LightEntity):
         self._hscolor = None
         self._available = None
         self._effect = None
-        self._scenes = []
+        self._scenes: list[str] = []
         self._bulbtype: BulbType = None
         self._mac = None
 
@@ -224,7 +224,7 @@ class WizBulb(LightEntity):
         if self._bulbtype:
             return self.featuremap()
         # fallback
-        return SUPPORT_BRIGHTNESS | SUPPORT_COLOR | SUPPORT_COLOR_TEMP | SUPPORT_EFFECT
+        return SUPPORT_FEATURES_RGB
 
     @property
     def effect(self):
@@ -237,21 +237,6 @@ class WizBulb(LightEntity):
 
         URL: https://docs.pro.wizconnected.com/#light-modes
         """
-        if self._bulbtype and len(self._scenes) > 0:
-            # retrun for TW
-            if self._bulbtype.bulb_type == BulbClass.TW:
-                e_list = []
-                for key in [6, 9, 10, 11, 12, 13, 14, 15, 16, 18, 29, 30, 31, 32]:
-                    # Array counting correction
-                    e_list.append(self._scenes[key - 1])
-                return e_list
-            if self._bulbtype.bulb_type == BulbClass.DW:
-                e_list = []
-                for key in [9, 10, 13, 14, 29, 30, 31, 32]:
-                    # Array counting correction
-                    e_list.append(self._scenes[key - 1])
-                return e_list
-            # Must be RGB with all
         return self._scenes
 
     @property
@@ -268,7 +253,7 @@ class WizBulb(LightEntity):
             self.update_temperature()
             self.update_color()
             self.update_effect()
-            self.update_scene_list()
+            await self.update_scene_list()
 
     @property
     def device_info(self):
@@ -404,11 +389,10 @@ class WizBulb(LightEntity):
                 "[wizlight %s] Bulbtype update failed - Timeout", self._light.ip
             )
 
-    def update_scene_list(self):
+    async def update_scene_list(self):
         """Update the scene list."""
-        self._scenes = []
-        for number in SCENES:
-            self._scenes.append(SCENES[number])
+        _value = await self._light.getSupportedScenes()
+        self._scenes = list(_value.values())
 
     async def get_mac(self):
         """Get the mac from the bulb."""
@@ -432,9 +416,5 @@ class WizBulb(LightEntity):
                 features = features | SUPPORT_COLOR_TEMP
             return features
         except WizLightNotKnownBulb:
-            _LOGGER.info(
-                "Bulb is not present in the library. Fallback to full feature."
-            )
-            return (
-                SUPPORT_BRIGHTNESS | SUPPORT_COLOR | SUPPORT_COLOR_TEMP | SUPPORT_EFFECT
-            )
+            _LOGGER.info("Bulb is not present in the library. Fallback to full feature")
+            return SUPPORT_FEATURES_RGB
