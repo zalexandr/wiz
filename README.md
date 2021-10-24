@@ -10,7 +10,6 @@ Because on older HASS version the startup can be slowed down if multiple bulbs a
 There is an issue with bulb when these are offline on start up and swichted on if HASS is started. The bulbs will stay in "not available". This seems to be a bug :wink:. **To fix that you have to switch the entry to "disabled" and than back to "enabled" via the UI (small :gear: in the upper left corner of the UI card).**
 
 There are changes in the bulb detection function. I can't test all possible bulb types in real because I have only two of them :wink:.
-TW (Tunable White) bulbs seems to have some issues with the effects. Should be fixed in the current branch.
 
 ## :muscle: Change Log
 - Workaround in 0.4.2: The bulb FW 1.22.0 breaks the automated kelvin detection. A workaround was added. Final solution still open.
@@ -37,6 +36,7 @@ To fix bulbs which are stuck in a "unavailability" if they are offline at startu
 ### What is declined or rejected:
 
 - Change of the speed of the transition from on to off and off->on. This is not supported via the UDP API and can only be configured via WiZ App.
+- The Motion Sensor is not integrated
 
 ## :information_source: [Development Log](https://github.com/sbidy/wiz_light/discussions/78)
 
@@ -46,6 +46,13 @@ I try to create a kind of Development Log to trace changes/decissions and made t
 ## :warning: Discussions
 
 If you have questions or other comments please use the **new** [Discussions Board](https://github.com/sbidy/wiz_light/discussions).
+
+## 📔 DNS / IP Address Tip
+If you are using DHCP IP address features and looking for avoiding static IPs for the bulb, you can use the DNS names.
+To avoid the mess with the IPs you can use the Hostnames of the bulbs.
+The hostname will be created from the last 6 digest of the MAC and the `wiz-` prefix. Example: `wiz-123123` or `wiz-123ABC` .
+So you can have dynamic IPs, but this hostname will not change. The MAC address you can find in your router or via `nc`.
+One of the next versions of this integration will show the MAC in the "Device Properties" tab. Overall, your DNS resolution should work 😉.
 
 ## :blue_heart: Kudos and contributions
 
