@@ -54,6 +54,11 @@ The hostname will be created from the last 6 digest of the MAC and the `wiz-` pr
 So you can have dynamic IPs, but this hostname will not change. The MAC address you can find in your router or via `nc`.
 One of the next versions of this integration will show the MAC in the "Device Properties" tab. Overall, your DNS resolution should work 😉.
 
+## 🔄 Test Connction
+To test the connection between the bulb and your Wi-Fi router, you can use the RSSI value.
+You can test the [RSSI ](https://en.wikipedia.org/wiki/Received_signal_strength_indication) with this command: `echo '{"method":"getPilot","env":"pro","params":{}}' | nc -u -w 1 <AddressOfYourBulb> 38899`.
+If the RSSI value is close to -100 the signal is not that good. Everything between -70 and 0 should be fine.
+
 ## :blue_heart: Kudos and contributions
 
 Thank you [@angadsingh](https://github.com/angadsingh) for making such incredible improvements!
