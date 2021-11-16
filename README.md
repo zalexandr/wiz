@@ -4,7 +4,7 @@
 
 ## Thank you for all sponsors and supporter!
 
-# :bulb: wiz_light - V 0.4.3
+# :bulb: wiz_light - V [0.4.3](https://github.com/sbidy/wiz_light/releases/tag/v0.4.3)
 
 One short note: If you have multiple (>5) bulb connected to the HASS, please try to bring all online if you restart the HASS service/container.
 Because on older HASS version the startup can be slowed down if multiple bulbs are offline.
