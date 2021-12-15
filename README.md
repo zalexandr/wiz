@@ -1,10 +1,14 @@
+# Wiz Light Bulb HASS integration
+
 ![Lint](https://github.com/sbidy/wiz_light/workflows/Lint/badge.svg) ![Pylint](https://github.com/sbidy/wiz_light/workflows/Pylint/badge.svg)
 
-## Check out my latest post in the "Dev.-Blog"!! ![Click!!!](https://github.com/sbidy/wiz_light/discussions/78#discussioncomment-406814)
+### Check out my latest post in the "Dev.-Blog"!!
+
+[Click!!!](https://github.com/sbidy/wiz_light/discussions/78#discussioncomment-406814)
 
 ### Thank you for all sponsors and supporter!
 
-# :bulb: wiz_light - [V0.4.4](https://github.com/sbidy/wiz_light/releases/tag/v0.4.4)
+## :bulb: wiz_light - [V0.4.4](https://github.com/sbidy/wiz_light/releases/tag/v0.4.4)
 
 One short note: If you have multiple (>5) bulb connected to the HASS, please try to bring all online if you restart the HASS service/container.
 Because on older HASS version the startup can be slowed down if multiple bulbs are offline.
@@ -64,9 +68,9 @@ This component has a dependency on `pywizlight` which will be installed automati
 
 ## :zap: Misc
 
-### Bulb Type Definition:
+### Bulb Type Definition
 
-```
+```config
 e.g. ESP01_SHDW1C_31
 ESP01 -- defines the module family (WiFi only bulb in this case)
 SH -- Single Head light (most bulbs are single heads) / LED Strip
@@ -79,7 +83,7 @@ RGB -- Fullstack bulb
 
 ## Pull request in HA core
 
-https://github.com/home-assistant/core/pull/44779
+[https://github.com/home-assistant/core/pull/44779](https://github.com/home-assistant/core/pull/44779)
 
 ## Installation via HACS (Home Assistant Community Store)
 
