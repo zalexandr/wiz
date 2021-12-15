@@ -5,16 +5,26 @@ import logging
 from datetime import timedelta
 
 import homeassistant.util.color as color_utils
-from homeassistant.components.light import (ATTR_BRIGHTNESS, ATTR_COLOR_TEMP,
-                                            ATTR_EFFECT, ATTR_HS_COLOR,
-                                            ATTR_RGB_COLOR, SUPPORT_BRIGHTNESS,
-                                            SUPPORT_COLOR, SUPPORT_COLOR_TEMP,
-                                            SUPPORT_EFFECT, LightEntity)
+from homeassistant.components.light import (
+    ATTR_BRIGHTNESS,
+    ATTR_COLOR_TEMP,
+    ATTR_EFFECT,
+    ATTR_HS_COLOR,
+    ATTR_RGB_COLOR,
+    SUPPORT_BRIGHTNESS,
+    SUPPORT_COLOR,
+    SUPPORT_COLOR_TEMP,
+    SUPPORT_EFFECT,
+    LightEntity,
+)
 from homeassistant.const import CONF_HOST, CONF_NAME
 from pywizlight import PilotBuilder, wizlight
 from pywizlight.bulblibrary import BulbType
-from pywizlight.exceptions import (WizLightConnectionError,
-                                   WizLightNotKnownBulb, WizLightTimeOutError)
+from pywizlight.exceptions import (
+    WizLightConnectionError,
+    WizLightNotKnownBulb,
+    WizLightTimeOutError,
+)
 
 from .const import DOMAIN
 
@@ -81,11 +91,6 @@ class WizBulbEntity(LightEntity):
     def hs_color(self):
         """Return the hs color value."""
         return self._hscolor
-
-    @property
-    def name(self):
-        """Return the ip as name of the device if any."""
-        return self._name
 
     @property
     def unique_id(self):
