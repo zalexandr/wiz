@@ -2,42 +2,24 @@
 
 ## Check out my latest post in the "Dev.-Blog"!! ![Click!!!](https://github.com/sbidy/wiz_light/discussions/78#discussioncomment-406814)
 
-## Thank you for all sponsors and supporter!
+### Thank you for all sponsors and supporter!
 
-# :bulb: wiz_light - [V0.4.3](https://github.com/sbidy/wiz_light/releases/tag/v0.4.3)
+# :bulb: wiz_light - [V0.4.4](https://github.com/sbidy/wiz_light/releases/tag/v0.4.4)
 
 One short note: If you have multiple (>5) bulb connected to the HASS, please try to bring all online if you restart the HASS service/container.
 Because on older HASS version the startup can be slowed down if multiple bulbs are offline.
 
-There is an issue with bulb when these are offline on start up and swichted on if HASS is started. The bulbs will stay in "not available". This seems to be a bug :wink:. **To fix that you have to switch the entry to "disabled" and than back to "enabled" via the UI (small :gear: in the upper left corner of the UI card).**
+## :muscle: Change Log 0.4.4 (possible breaking changes)
 
-There are changes in the bulb detection function. I can't test all possible bulb types in real because I have only two of them :wink:.
-
-## :muscle: Change Log
-
-- Rework in 0.4.3: Moved some functions to the pywizlight lib and updated to lib version 0.4.13 / #197 fixed
-- Workaround in 0.4.2: The bulb FW 1.22.0 breaks the automated kelvin detection. A workaround was added. Final solution still open.
-- Small fix in 0.4.1: The Array for the bulb effects now mapped correctly.
-- New in 0.4.: The bulb type and features will be autodetected.
-- New in 0.4.: Fixing some other small issues. Update to pywizlight 0.4.5
-- Working ConfigFlow: Now the bulbs can be configured via UI
-- Devices Registration: The Bulb now shows up as "Light" device
-- [BETA] The colors now "correct" regarding the HS to RGB-CW conversation in the WiZ app. Thanks to @brettonw for incredible work!(should be tested with non-RGB and non-Kelvin bulbs!! )
-- Poll Service: Now it is possible to trigger a status update from the bulb via HASS service. This can be helpful for automation (e.g. motion detectors).
-- DNS and IPs Support: The bulbs can now be added with an DNS name or ip.
-- Bulb Library Moved: The "YAML" file was removed (because of a policy from HASS dev) and moved to the `pywizlight` repo..
-- Tones of other fixes, improvement and removed typos :wink:
-
-### Still missing but "Work in Progress":
-
-- Registration of the bulb to HASS via UDP API. There are features to register the HASS to the bulb to send UDP packages to the HASS if the state of the bulb was changed. This will made the Poll Service obsolete.
-- A User Documentaion based on HASS Docs. (with screen shots etc.) will be added (soon :wink:)
--
+- Downstream all changes from the [HASS PR #44779](https://github.com/home-assistant/core/pull/44779). If you receive an error `wiz_light: no setup was found` you have to update the HASS to the latest version.
+- **YAML Config Support ist not longer supported!**. Please re-add the bulbs via the UI. Auto-Discover is on the way.
+- In general multiple improvements and fixes are made.
 
 ### What is declined or rejected:
 
 - Change of the speed of the transition from on to off and off->on. This is not supported via the UDP API and can only be configured via WiZ App.
 - The Motion Sensor is not integrated
+- Color saturation is not supported by HASS
 
 ### :information_source: [Development Log](https://github.com/sbidy/wiz_light/discussions/78)
 
@@ -80,9 +62,7 @@ Thanks to [@vodovozovge](https://github.com/vodovozovge) for the "insider suppor
 
 This component has a dependency on `pywizlight` which will be installed automatically by Home Assistant.
 
-## :zap: Supported Bulbs
-
-All bulbs from WiZ are supported.
+## :zap: Misc
 
 ### Bulb Type Definition:
 
@@ -126,21 +106,4 @@ logger:
     default: warning
     logs:
       homeassistant.components.wiz_light: debug
-```
-
-## HA config
-
-You _should_ now use the HASS UI to add the devices/integration.
-
-To add bulbs via configuration.yaml you can add:
-
-```
-light:
-  - platform: wiz_light
-    name: <Name of the device>
-    host: <DNS of the bulb>
-  - platform: wiz_light
-    name: <Name of the device#2>
-    host: <DNS of the bulb#2>
-``
 ```
