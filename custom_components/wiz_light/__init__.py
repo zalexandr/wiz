@@ -2,10 +2,7 @@
 import logging
 from dataclasses import dataclass
 
-from ipaddress import ip_network
-
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.components import network
 from homeassistant.const import CONF_HOST
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
