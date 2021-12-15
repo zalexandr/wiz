@@ -164,8 +164,7 @@ class WizBulbEntity(LightEntity):
         """Return the CT color value in mireds."""
         return self._temperature
 
-    @property
-    def min_mireds(self):
+    def get_min_mireds(self) -> int:
         """Return the coldest color_temp that this light supports."""
         if self._bulbtype is None:
             return color_utils.color_temperature_kelvin_to_mired(6500)
@@ -179,8 +178,7 @@ class WizBulbEntity(LightEntity):
             _LOGGER.info("Kelvin is not present in the library. Fallback to 6500")
             return color_utils.color_temperature_kelvin_to_mired(6500)
 
-    @property
-    def max_mireds(self):
+    def get_max_mireds(self) -> int:
         """Return the warmest color_temp that this light supports."""
         if self._bulbtype is None:
             return color_utils.color_temperature_kelvin_to_mired(2200)
@@ -193,8 +191,7 @@ class WizBulbEntity(LightEntity):
             _LOGGER.info("Kelvin is not present in the library. Fallback to 2200")
             return color_utils.color_temperature_kelvin_to_mired(2200)
 
-    @property
-    def supported_features(self) -> int:
+    def get_supported_features(self) -> int:
         """Flag supported features."""
         if self._bulbtype:
             return self.featuremap()
