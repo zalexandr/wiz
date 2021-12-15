@@ -1,38 +1,20 @@
 """WiZ Light integration."""
-from datetime import timedelta
-import logging
+from __future__ import annotations
 
+import logging
+from datetime import timedelta
+
+import homeassistant.util.color as color_utils
+from homeassistant.components.light import (ATTR_BRIGHTNESS, ATTR_COLOR_TEMP,
+                                            ATTR_EFFECT, ATTR_HS_COLOR,
+                                            ATTR_RGB_COLOR, SUPPORT_BRIGHTNESS,
+                                            SUPPORT_COLOR, SUPPORT_COLOR_TEMP,
+                                            SUPPORT_EFFECT, LightEntity)
+from homeassistant.const import CONF_HOST, CONF_NAME
 from pywizlight import PilotBuilder, wizlight
 from pywizlight.bulblibrary import BulbType
-from pywizlight.exceptions import (
-    WizLightConnectionError,
-    WizLightNotKnownBulb,
-    WizLightTimeOutError,
-)
-import voluptuous as vol
-
-# Import the device class from the component
-from homeassistant.components.light import (
-    ATTR_BRIGHTNESS,
-    ATTR_COLOR_TEMP,
-    ATTR_EFFECT,
-    ATTR_HS_COLOR,
-    ATTR_RGB_COLOR,
-    PLATFORM_SCHEMA,
-    SUPPORT_BRIGHTNESS,
-    SUPPORT_COLOR,
-    SUPPORT_COLOR_TEMP,
-    SUPPORT_EFFECT,
-    LightEntity,
-)
-from homeassistant.const import CONF_HOST, CONF_NAME
-
-
-from .rgbcw import rgb2rgbcw, rgbcw2hs, hs2rgbcw
-
-import homeassistant.helpers.config_validation as cv
-from homeassistant.util import slugify
-import homeassistant.util.color as color_utils
+from pywizlight.exceptions import (WizLightConnectionError,
+                                   WizLightNotKnownBulb, WizLightTimeOutError)
 
 from .const import DOMAIN
 
@@ -44,66 +26,46 @@ SUPPORT_FEATURES_RGB = (
 SUPPORT_FEATURES_DIM = SUPPORT_BRIGHTNESS
 SUPPORT_FEATURES_WHITE = SUPPORT_BRIGHTNESS | SUPPORT_COLOR_TEMP
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {vol.Required(CONF_HOST): cv.string, vol.Required(CONF_NAME): cv.string}
-)
 
-# set poll interval to 30 sec because of changes from external to the bulb
+# set poll interval to 15 sec because of changes from external to the bulb
 SCAN_INTERVAL = timedelta(seconds=15)
-
-
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
-    """Set up the WiZ Light platform from legacy config."""
-    # Assign configuration variables.
-    # The configuration check takes care they are present.
-    ip_address = config[CONF_HOST]
-    try:
-        bulb = wizlight(ip_address)
-        # Add devices
-        async_add_entities([WizBulb(bulb, config[CONF_NAME])], update_before_add=True)
-        return True
-    except WizLightConnectionError:
-        _LOGGER.error("Can't add bulb with ip %s.", ip_address)
-        return False
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the WiZ Light platform from config_flow."""
     # Assign configuration variables.
-    bulb = hass.data[DOMAIN][entry.unique_id]
-    wizbulb = WizBulb(bulb, entry.data.get(CONF_NAME))
+    wiz_data = hass.data[DOMAIN][entry.entry_id]
+    wizbulb = WizBulbEntity(
+        wiz_data.bulb, entry.data.get(CONF_NAME), wiz_data.mac_addr, wiz_data.bulb_type
+    )
     # Add devices with defined name
     async_add_entities([wizbulb], update_before_add=True)
-
-    # Register services
-    async def async_update(call=None):
-        """Trigger update."""
-        _LOGGER.debug("[wizlight %s] update requested", entry.data.get(CONF_HOST))
-        await wizbulb.async_update()
-        await wizbulb.async_update_ha_state()
-
-    service_name = slugify(f"{entry.data.get(CONF_NAME)} updateService")
-    hass.services.async_register(DOMAIN, service_name, async_update)
     return True
 
 
-class WizBulb(LightEntity):
+class WizBulbEntity(LightEntity):
     """Representation of WiZ Light bulb."""
 
-    def __init__(self, light: wizlight, name):
+    def __init__(self, light: wizlight, name, mac_addr, bulb_type):
         """Initialize an WiZLight."""
         self._light: wizlight = light
         self._state = None
         self._brightness = None
-        self._name = name
+        self._attr_name = name
         self._rgb_color = None
         self._temperature = None
         self._hscolor = None
         self._available = None
         self._effect = None
         self._scenes: list[str] = []
-        self._bulbtype: BulbType = None
-        self._mac = None
+        self._bulbtype: BulbType = bulb_type
+        self._mac = mac_addr
+        self._attr_unique_id = mac_addr
+        # new init states
+        # self._attr_device_info = self.get_device_info()
+        self._attr_min_mireds = self.get_min_mireds()
+        self._attr_max_mireds = self.get_max_mireds()
+        self._attr_supported_features = self.get_supported_features()
 
     @property
     def brightness(self):
@@ -143,9 +105,12 @@ class WizBulb(LightEntity):
             brightness = kwargs.get(ATTR_BRIGHTNESS)
 
         if ATTR_RGB_COLOR in kwargs:
-            pilot = rgb2rgbcw(kwargs.get(ATTR_RGB_COLOR), brightness)
+            pilot = PilotBuilder(rgb=kwargs.get(ATTR_RGB_COLOR), brightness=brightness)
         if ATTR_HS_COLOR in kwargs:
-            pilot = hs2rgbcw(kwargs.get(ATTR_HS_COLOR), brightness)
+            rgb = color_utils.color_hs_to_RGB(
+                kwargs[ATTR_HS_COLOR][0], kwargs[ATTR_HS_COLOR][1]
+            )
+            pilot = PilotBuilder(rgb=rgb, brightness=brightness)
         else:
             colortemp = None
             if ATTR_COLOR_TEMP in kwargs:
@@ -175,6 +140,16 @@ class WizBulb(LightEntity):
                     brightness,
                     colortemp,
                     sceneid,
+                )
+                sceneid = None
+            if ATTR_EFFECT in kwargs:
+                sceneid = self._light.get_id_from_scene_name(kwargs[ATTR_EFFECT])
+
+            if sceneid == 1000:  # rhythm
+                pilot = PilotBuilder()
+            else:
+                pilot = PilotBuilder(
+                    brightness=brightness, colortemp=colortemp, scene=sceneid
                 )
         await self._light.turn_on(
             pilot,
@@ -258,18 +233,11 @@ class WizBulb(LightEntity):
     @property
     def device_info(self):
         """Get device specific attributes."""
-        _LOGGER.debug(
-            "[wizlight %s] Call device info: MAC: %s - Name: %s - Type: %s",
-            self._light.ip,
-            self._mac,
-            self._name,
-            self._bulbtype.name,
-        )
         return {
             "identifiers": {(DOMAIN, self._mac)},
-            "name": self._name,
+            "name": self._attr_name,
             "manufacturer": "WiZ Light Platform",
-            "model": self._bulbtype.name,
+            "model": f"{self._bulbtype.name} Mac: {self._mac}",
         }
 
     def update_state_available(self):
@@ -290,13 +258,7 @@ class WizBulb(LightEntity):
                 self.update_state_unavailable()
             else:
                 self.update_state_available()
-                # Update the rest of the missing info if available
-                await self.get_bulb_type()
-                await self.get_mac()
-        except TimeoutError as ex:
-            _LOGGER.debug(ex)
-            self.update_state_unavailable()
-        except WizLightTimeOutError as ex:
+        except (TimeoutError, WizLightTimeOutError) as ex:
             _LOGGER.debug(ex)
             self.update_state_unavailable()
         _LOGGER.debug(
@@ -353,15 +315,14 @@ class WizBulb(LightEntity):
         try:
             rgb = self._light.state.get_rgb()
             if rgb[0] is None:
-                # this is the case if the temperature was changed - no information was return form the lamp.
+                # this is the case if the temperature was changed
                 # do nothing until the RGB color was changed
                 return
-
-            cw = self._light.state.get_warm_white()
-            if cw is None:
+            warmwhite = self._light.state.get_warm_white()
+            if warmwhite is None:
                 return
 
-            self._hscolor = rgbcw2hs(rgb, cw)
+            self._hscolor = self._light.convertHSfromRGBCW(rgb, warmwhite)
 
         # pylint: disable=broad-except
         except Exception:
