@@ -5,16 +5,26 @@ import logging
 from datetime import timedelta
 
 import homeassistant.util.color as color_utils
-from homeassistant.components.light import (ATTR_BRIGHTNESS, ATTR_COLOR_TEMP,
-                                            ATTR_EFFECT, ATTR_HS_COLOR,
-                                            ATTR_RGB_COLOR, SUPPORT_BRIGHTNESS,
-                                            SUPPORT_COLOR, SUPPORT_COLOR_TEMP,
-                                            SUPPORT_EFFECT, LightEntity)
+from homeassistant.components.light import (
+    ATTR_BRIGHTNESS,
+    ATTR_COLOR_TEMP,
+    ATTR_EFFECT,
+    ATTR_HS_COLOR,
+    ATTR_RGB_COLOR,
+    SUPPORT_BRIGHTNESS,
+    SUPPORT_COLOR,
+    SUPPORT_COLOR_TEMP,
+    SUPPORT_EFFECT,
+    LightEntity,
+)
 from homeassistant.const import CONF_HOST, CONF_NAME
 from pywizlight import PilotBuilder, wizlight
 from pywizlight.bulblibrary import BulbType
-from pywizlight.exceptions import (WizLightConnectionError,
-                                   WizLightNotKnownBulb, WizLightTimeOutError)
+from pywizlight.exceptions import (
+    WizLightConnectionError,
+    WizLightNotKnownBulb,
+    WizLightTimeOutError,
+)
 
 from .const import DOMAIN
 
