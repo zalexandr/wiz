@@ -2,7 +2,10 @@
 import logging
 from dataclasses import dataclass
 
+from ipaddress import ip_network
+
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.components import network
 from homeassistant.const import CONF_HOST
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
@@ -18,8 +21,10 @@ PLATFORMS = ["light"]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up the wiz_light integration from a config entry."""
+
     ip_address = entry.data.get(CONF_HOST)
     _LOGGER.debug("Get bulb with IP: %s", ip_address)
+
     try:
         bulb = wizlight(ip_address)
         mac_addr = await bulb.getMac()
