@@ -17,11 +17,10 @@ from homeassistant.components.light import (
     SUPPORT_EFFECT,
     LightEntity,
 )
-from homeassistant.const import CONF_HOST, CONF_NAME
+from homeassistant.const import CONF_NAME
 from pywizlight import PilotBuilder, wizlight
 from pywizlight.bulblibrary import BulbType
 from pywizlight.exceptions import (
-    WizLightConnectionError,
     WizLightNotKnownBulb,
     WizLightTimeOutError,
 )
