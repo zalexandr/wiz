@@ -15,10 +15,10 @@ Because on older HASS version the startup can be slowed down if multiple bulbs a
 
 ## :muscle: Change Log 0.4.4 (possible breaking changes)
 
-- Downstream all changes from the [HASS PR #44779](https://github.com/home-assistant/core/pull/44779). If you receive an error `wiz_light: no setup was found` you have to update the HASS to the latest version.
-- **YAML Config Support ist not longer supported!**. Please re-add the bulbs via the UI. Auto-Discover is on the way.
+- Downstream all changes from the [HASS PR #44779](https://github.com/home-assistant/core/pull/44779). If you receive an error, `wiz_light: no setup was found` you have to update the HASS to the latest version.
+- **YAML Config Support is no longer supported!**. Please re-add the bulbs via the UI. Auto-Discover is on the way.
 - The MAC for the bulb now displayed in the device info
-- In general multiple improvements and fixes are made.
+- In general, multiple improvements and fixes are made.
 
 ### What is declined or rejected:
 
