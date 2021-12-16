@@ -172,8 +172,8 @@ class WizBulbEntity(LightEntity):
         """Return the coldest color_temp that this light supports."""
         if self._bulbtype is None:
             return color_utils.color_temperature_kelvin_to_mired(6500)
-
         if self._bulbtype.bulb_type != BulbClass.DW:
+            # If bulbtype is TW or RGB then return the kelvin value
             try:
                 return color_utils.color_temperature_kelvin_to_mired(
                     self._bulbtype.kelvin_range.max
@@ -191,6 +191,7 @@ class WizBulbEntity(LightEntity):
         if self._bulbtype is None:
             return color_utils.color_temperature_kelvin_to_mired(2200)
         if self._bulbtype.bulb_type != BulbClass.DW:
+            # If bulbtype is TW or RGB then return the kelvin value
             try:
                 return color_utils.color_temperature_kelvin_to_mired(
                     self._bulbtype.kelvin_range.min
