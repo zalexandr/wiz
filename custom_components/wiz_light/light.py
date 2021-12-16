@@ -19,6 +19,7 @@ from homeassistant.components.light import (
 )
 from homeassistant.const import CONF_NAME
 from pywizlight import PilotBuilder, wizlight
+from pywizlight.rgbcw import convertHSfromRGBCW
 from pywizlight.bulblibrary import BulbType, BulbClass
 from pywizlight.exceptions import (
     WizLightNotKnownBulb,
@@ -331,7 +332,7 @@ class WizBulbEntity(LightEntity):
             if warmwhite is None:
                 return
 
-            self._hscolor = self._light.convertHSfromRGBCW(rgb, warmwhite)
+            self._hscolor = convertHSfromRGBCW(rgb, warmwhite)
 
         # pylint: disable=broad-except
         except Exception:
