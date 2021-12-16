@@ -111,10 +111,10 @@ class WizBulbEntity(LightEntity):
         if ATTR_RGB_COLOR in kwargs:
             pilot = PilotBuilder(rgb=kwargs.get(ATTR_RGB_COLOR), brightness=brightness)
         if ATTR_HS_COLOR in kwargs:
-            rgb = color_utils.color_hs_to_RGB(
-                kwargs[ATTR_HS_COLOR][0], kwargs[ATTR_HS_COLOR][1]
+            pilot = PilotBuilder(
+                hucolor=(kwargs[ATTR_HS_COLOR][0], kwargs[ATTR_HS_COLOR][1]),
+                brightness=brightness,
             )
-            pilot = PilotBuilder(rgb=rgb, brightness=brightness)
         else:
             colortemp = None
             if ATTR_COLOR_TEMP in kwargs:
@@ -184,7 +184,7 @@ class WizBulbEntity(LightEntity):
                 return color_utils.color_temperature_kelvin_to_mired(6500)
         else:
             # DW bulbs have a fixed range of color temperature
-            return None
+            return 0
 
     def get_max_mireds(self) -> int:
         """Return the warmest color_temp that this light supports."""
@@ -201,7 +201,7 @@ class WizBulbEntity(LightEntity):
                 return color_utils.color_temperature_kelvin_to_mired(2200)
         else:
             # DW bulbs have a fixed range of color temperature
-            return None
+            return 0
 
     def get_supported_features(self) -> int:
         """Flag supported features."""
