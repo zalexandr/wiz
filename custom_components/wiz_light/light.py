@@ -19,6 +19,7 @@ from homeassistant.components.light import (
 )
 from homeassistant.const import CONF_NAME
 from pywizlight import PilotBuilder, wizlight
+from pywizlight.scenes import get_id_from_scene_name
 from pywizlight.rgbcw import convertHSfromRGBCW
 from pywizlight.bulblibrary import BulbType, BulbClass
 from pywizlight.exceptions import (
@@ -131,7 +132,7 @@ class WizBulbEntity(LightEntity):
 
             sceneid = None
             if ATTR_EFFECT in kwargs:
-                sceneid = self._light.get_id_from_scene_name(kwargs[ATTR_EFFECT])
+                sceneid = get_id_from_scene_name(kwargs[ATTR_EFFECT])
 
             if sceneid == 1000:  # rhythm
                 pilot = PilotBuilder()
@@ -148,7 +149,7 @@ class WizBulbEntity(LightEntity):
                 )
                 sceneid = None
             if ATTR_EFFECT in kwargs:
-                sceneid = self._light.get_id_from_scene_name(kwargs[ATTR_EFFECT])
+                sceneid = get_id_from_scene_name(kwargs[ATTR_EFFECT])
 
             if sceneid == 1000:  # rhythm
                 pilot = PilotBuilder()
