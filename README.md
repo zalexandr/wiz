@@ -8,17 +8,19 @@
 
 ### Thank you for all sponsors and supporter!
 
-## :bulb: wiz_light - [V0.4.4](https://github.com/sbidy/wiz_light/releases/tag/v0.4.4)
+## :bulb: wiz_light - [V0.4.5](https://github.com/sbidy/wiz_light/releases/tag/v0.4.5)
 
 One short note: If you have multiple (>5) bulb connected to the HASS, please try to bring all online if you restart the HASS service/container.
 Because on older HASS version the startup can be slowed down if multiple bulbs are offline.
 
-## :muscle: Change Log 0.4.4 (possible breaking changes)
+## :muscle: Change Log 0.4.5 (possible breaking changes)
 
 - Downstream all changes from the [HASS PR #44779](https://github.com/home-assistant/core/pull/44779). If you receive an error, `wiz_light: no setup was found` you have to update the HASS to the latest version.
 - **YAML Config Support is no longer supported!**. Please re-add the bulbs via the UI. Auto-Discover is on the way.
+- Colors now correctly calculated and shown
 - The MAC for the bulb now displayed in the device info
-- In general, multiple improvements and fixes are made.
+- In general, multiple improvements and fixes are made
+- Sate should be update accordingly
 
 ### What is declined or rejected:
 
