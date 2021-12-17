@@ -6,7 +6,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-from pywizlight import BulbType, wizlight
+from pywizlight import wizlight
 from pywizlight.exceptions import WizLightConnectionError, WizLightTimeOutError
 
 from .const import DOMAIN
