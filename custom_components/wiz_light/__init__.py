@@ -24,8 +24,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     try:
         bulb = wizlight(ip_address)
-        mac_addr = await bulb.getMac()
-        bulb_type = await bulb.get_bulbtype()
+        scenes = await bulb.getSupportedScenes()
+        await bulb.getMac()
     except (
         WizLightTimeOutError,
         WizLightConnectionError,
@@ -33,9 +33,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     ) as err:
         raise ConfigEntryNotReady from err
 
-    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = WizData(
-        bulb=bulb, mac_addr=mac_addr, bulb_type=bulb_type
-    )
+    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = WizData(bulb=bulb, scenes=scenes)
     hass.config_entries.async_setup_platforms(entry, PLATFORMS)
     return True
 
@@ -52,5 +50,4 @@ class WizData:
     """Data for the wiz integration."""
 
     bulb: wizlight
-    mac_addr: str
-    bulb_type: BulbType
+    scenes: list
