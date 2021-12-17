@@ -95,14 +95,14 @@ RGB -- Fullstack bulb
 ## Install for testing
 
 1. Logon to your HA or HASS with SSH
-2. Got to the HA `custom_components` directory within the HA installation path (if this is not available - create this directory).
-3. Run `cd custom_components`
-4. Run `git clone https://github.com/sbidy/wiz_light` within the `custom_components` directory
-5. Run `mv wiz_light/custom_components/wiz_light/* wiz_light/` to move the files in the correct diretory
-6. Restart your HA/HASS service in the UI with `<your-URL>/config/server_control`
-7. Add the bulbs either by:
-   - HA UI by navigating to "Integrations" -> "Add Integration" -> "WiZ Light"
-     (- Manually by adding them to `configuration.yaml)`
+2. Go to the HA 'custom_components' directory within the HA installation path (The directory is in the folder where the 'configuration.yaml' file is located. If this is not available - create this directory).
+
+4. Run `cd custom_components`
+5. Run `git clone https://github.com/sbidy/wiz_light` within the `custom_components` directory
+6. Run `mv wiz_light/custom_components/wiz_light/* wiz_light/` to move the files in the correct diretory
+7. Restart your HA/HASS service in the UI with `<your-URL>/config/server_control`
+8. Add the bulbs either by:
+HA UI by navigating to "Integrations" -> "Add Integration" -> "WiZ Light" (If it is not available, clear your web browser cache to renew the integrations list.)
 
 Questions? Check out the github project [pywizlight](https://github.com/sbidy/pywizlight)
 
