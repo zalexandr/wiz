@@ -30,6 +30,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for WiZ Light."""
 
     VERSION = 1
+
     async def async_step_user(self, user_input=None):
         """Handle a flow initialized by the user."""
         errors = {}
@@ -60,18 +61,16 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         bulbs = await self.async_discover_bulbs()
         data_schema = vol.Schema(
             {
-                #vol.Required(CONF_HOST): str,
+                # vol.Required(CONF_HOST): str,
                 vol.Optional(CONF_NAME, default=DEFAULT_NAME): str,
-                vol.Optional("bulbs", default=[]): cv.multi_select(
-                        bulbs
-                    ),
+                vol.Optional("bulbs", default=[]): cv.multi_select(bulbs),
             }
         )
         return self.async_show_form(
             step_id="user",
             data_schema=data_schema,
         )
-    
+
     async def async_discover_bulbs(self):
         """Discover bulbs."""
         bulbs = await discover_lights()
