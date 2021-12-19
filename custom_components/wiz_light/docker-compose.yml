@@ -1,0 +1,183 @@
+version: "3"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: false
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    hostname: traefik
+    labels:
+      - "traefik.enable=true"
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /docker/traefik/traefik.toml:/traefik.toml
+      - /docker/acme/acme.json:/acme.json
+    network_mode: "host"
+    ports:
+      - 80:80
+      - 443:443
+
+  nextcloud:
+    image: nextcloud:latest
+    environment:
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_HOST=mysql:3306
+    links:
+      - mysql
+    restart: always
+    volumes:
+      - /docker/nextcloud/html:/var/www/html:z
+      - /docker/nextcloud/apps:/var/www/html/custom_apps:z
+      - /disk/nextcloud/:/var/www/html/data:z
+      - /docker/nextcloud/config:/var/www/html/config:z
+    labels:
+      - "traefik.http.routers.nextcloud.rule=Host(`cloud.sbidy.de`)"
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+    networks:
+      - internal
+      - proxy
+    depends_on:
+      - mysql
+
+  mysql:
+    image: jsurf/rpi-mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+    restart: always
+    volumes:
+      - /docker/mysql:/var/lib/mysql:z
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+
+  homeassistant:
+    image: homeassistant/raspberrypi-homeassistant
+    container_name: homeassistant
+    restart: always
+#    links:
+#      - homegear
+    ports:
+      - 8123
+    volumes:
+     - /docker/homeassistant:/config
+     - /etc/localtime:/etc/localtime:ro
+    network_mode: "host"
+    labels:
+      - "traefik.http.routers.home.rule=Host(`home.sbidy.de`)"
+      - "traefik.http.services.home.loadbalancer.server.port=8123"
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+
+#  homegear:
+#    privileged: true
+#    tty: true
+#    restart: always
+#    image: homegear/rpi-homegear:stable
+#    container_name: homegear
+#    networks:
+#       internal:
+#          ipv4_address: "172.19.0.5"
+#    volumes:
+#       - /docker/homegear/etc:/etc/homegear:Z
+#       - /docker/homegear/lib:/var/lib/homegear:Z
+#       - /docker/homegear/log:/var/log/homegear:Z
+#    environment:
+#       - TZ=Europe/Berlin
+       #- "HOST_USER_ID=1001"
+       #- "HOST_USER_GID=1001"
+#    devices:
+#       - /dev/ttyAMA0:/dev/ttyAMA0
+#    ports:
+#       - 2000:2000
+#       - 2001:2001
+#       - 2002:2002
+#       - 2003:2003
+
+  mosquitto:
+    image: eclipse-mosquitto 
+    ports:
+       - 1883:1883
+       - 9001:9001
+    volumes:
+       - /docker/mqtt/data:/mosquitto/data
+       - /docker/mqtt/log:/mosquitto/log
+       - /docker/mqtt/config:/mosquitto/config
+    restart: always
+#    networks:
+#       internal:
+#          ipv4_address: "172.19.0.6"
+# sha1:4fba7020ddff:c4a2045f27a8845e183a28dab13dc7f158c20709
+#  jupyter:
+#    image: maxjiang/rpi-jupyter:datascience 
+#    container_name: jupyter
+#    ports:
+#      - 8888:8888
+#    volumes:
+#      - /docker/jupyter/notebooks:/root/notebooks
+#      - /bigdata/data.db:/root/data.db
+#      - /bigdata/hauser.db:/root/hauser.db
+#      - /docker/jupyter/jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py
+#    networks:
+#      - internal
+#      - proxy
+#    labels:
+#      - traefik.backend=jupyter
+#      - traefik.docker.network=proxy
+#      - traefik.frontend.rule=Host:jupyter.sbidy.de
+#      - traefik.enable=true
+#      - traefik.port=8888
+#      - traefik.default.protocol=http
+ 
+         #wordpress:   
+  #image: wordpress
+    #volumes:
+            #- /docker/wordpress:/var/www/html
+        #ports:
+            #- 80
+        #networks:
+            #- internal
+        #- proxy
+        # environment:
+            #- MYSQL_DATABASE=wordpress
+        #- MYSQL_USER=root
+        #- MYSQL_PASSWORD=nextcloud
+        #- MYSQL_HOST=mysql:3306
+        #links:
+            #- mysql
+        #labels:
+            # - "traefik.http.routers.web.rule=Host(`www.sbidy.de`) || Host(`sbidy.de`)"
+        # - "traefik.enable=true"
+        #      - "traefik.docker.network=proxy"
+
+
+  lighttpd:
+    image: sebp/lighttpd
+    volumes:
+      - /docker/http/www:/var/www/localhost/htdocs
+        #- /docker/http/config:/etc/lighttpd
+    networks:
+      - internal
+      - proxy
+    ports:
+      - 80
+    labels:
+      - "traefik.http.routers.lighttpd.rule=Host(`www.stephan-traub.de`) || Host(`stephan-traub.de`) || Host(`www.sbidy.de`) || Host(`sbidy.de`)"
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.test-redirectregex.redirectregex.regex=^https://sbidy.de/(.*)"
+      - "traefik.http.middlewares.test-redirectregex.redirectregex.replacement=https://www.stephan-traub.de/$${1}"
+      - "traefik.docker.network=proxy"
+    tty: true
+    restart: always
