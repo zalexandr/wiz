@@ -41,7 +41,7 @@ If you have questions or other comments please use the **new** [Discussions Boar
 
 If you are using DHCP IP address features and looking for avoiding static IPs for the bulb, you can use the DNS names.
 To avoid the mess with the IPs you can use the Hostnames of the bulbs.
-The hostname will be created from the last 6 digest of the MAC and the `wiz-` prefix. Example: `wiz-123123` or `wiz-123ABC` .
+The hostname will be created from the last 6 digest of the MAC and the `wiz_` prefix. Example: `wiz_123123` or `wiz_123ABC` .
 So you can have dynamic IPs, but this hostname will not change. The MAC address you can find in your router or via `nc`.
 One of the next versions of this integration will show the MAC in the "Device Properties" tab. Overall, your DNS resolution should work 😉.
 
