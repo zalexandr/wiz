@@ -92,6 +92,8 @@ RGB -- Fullstack bulb
 
 [![Hacs Installtion](http://img.youtube.com/vi/_LTA07ENpBE/0.jpg)](http://www.youtube.com/watch?v=_LTA07ENpBE "Wiz Lightbulbs and Home Assistant walkthrough - 2021 Phillips Hue Killer?")
 
+[![Hacs and Bulb Installation](http://img.youtube.com/vi/OhLZC3JgctU/0.jpg)](https://www.youtube.com/watch?v=OhLZC3JgctU&t=770s)
+
 ## Install for testing
 
 1. Logon to your HA or HASS with SSH
