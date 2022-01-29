@@ -45,6 +45,8 @@ The hostname will be created from the last 6 digest of the MAC and the `wiz_` pr
 So you can have dynamic IPs, but this hostname will not change. The MAC address you can find in your router or via `nc`.
 One of the next versions of this integration will show the MAC in the "Device Properties" tab. Overall, your DNS resolution should work 😉.
 
+If you run into DNS issues, please add a "." at the end of the bulb dns name. Example `wiz_123452.`.
+
 ## 🔄 Test Connction
 
 To test the connection between the bulb and your Wi-Fi router, you can use the RSSI value.
