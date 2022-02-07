@@ -8,19 +8,17 @@
 
 ### Thank you for all sponsors and supporter!
 
-## :bulb: wiz_light - [V0.4.5b](https://github.com/sbidy/wiz_light/releases/tag/0.4.5b)
+## :muscle: Change Log
 
-One short note: If you have multiple (>5) bulb connected to the HASS, please try to bring all online if you restart the HASS service/container.
-Because on older HASS version the startup can be slowed down if multiple bulbs are offline.
+It is done![@bdraco](https://github.com/bdraco) does a tone of improvements and contributes some incredible fixes to the integration.
+BUT all changes are made directly to the HASS PR. In the next release of HASS the WiZ integration will be natively integrated and can be used without HACS or custom_components.
+The auto-discovery and timeout handling was also improved massively. Sockets/Smart Plugs now detected correctly too.
 
-## :muscle: Change Log 0.4.5 (possible breaking changes)
+Please stay tuned and look for the next upcoming release (>2022.2.3). Don't use HACS or the custom_component anymore. You have only search in the integration list for "WiZ".
 
-- Downstream all changes from the [HASS PR #44779](https://github.com/home-assistant/core/pull/44779). If you receive an error, `wiz_light: no setup was found` you have to update the HASS to the latest version.
-- **YAML Config Support is no longer supported!**. Please re-add the bulbs via the UI. Auto-Discover is on the way.
-- Colors now correctly calculated and shown
-- The MAC for the bulb now displayed in the device info
-- In general, multiple improvements and fixes are made
-- Sate should be update accordingly
+This repository will not be updated and downstream from the HASS release for now.
+
+Thank you to all testers, sponsors, contributors and issue submitter. 🚀 You are great!
 
 ### What is declined or rejected:
 
