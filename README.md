@@ -10,7 +10,7 @@
 
 ## :muscle: Change Log
 
-It is done![@bdraco](https://github.com/bdraco) does a tone of improvements and contributes some incredible fixes to the integration.
+It is done! [@bdraco](https://github.com/bdraco) does a tone of improvements and contributes some incredible fixes to the integration.
 BUT all changes are made directly to the HASS PR. In the next release of HASS the WiZ integration will be natively integrated and can be used without HACS or custom_components.
 The auto-discovery and timeout handling was also improved massively. Sockets/Smart Plugs now detected correctly too.
 
