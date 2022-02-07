@@ -16,9 +16,9 @@ The auto-discovery and timeout handling was also improved massively. Sockets/Sma
 
 Please stay tuned and look for the next upcoming release (>2022.2.3). Don't use HACS or the custom_component anymore. You have only search in the integration list for "WiZ".
 
-This repository will not be updated and downstream from the HASS release for now.
+**This repository will not be updated and downstreamed from the HASS release for now.**
 
-Thank you to all testers, sponsors, contributors and issue submitter. 🚀 You are great!
+**Thank you to all testers, sponsors, contributors and issue submitter. 🚀 You are great!**
 
 ### What is declined or rejected:
 
