@@ -6,7 +6,7 @@
 
 [Click!!!](https://github.com/sbidy/wiz_light/discussions/78#discussioncomment-406814)
 
-### Thank you for all sponsors and supporter!
+### Thank you to all sponsors and supporter!
 
 ## :muscle: Change Log
 
