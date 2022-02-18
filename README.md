@@ -11,10 +11,9 @@
 ## :muscle: Change Log
 
 It is done - the PR to HASS core was merged! [@bdraco](https://github.com/bdraco) does a tone of improvements and contributes some incredible fixes to the integration.
-BUT all changes are made directly to the HASS PR. In the next release of HASS the WiZ integration will be natively integrated and can be used without HACS or custom_components.
-The auto-discovery and timeout handling was also improved massively. Sockets/Smart Plugs now detected correctly too.
+BUT all changes are made directly to the HASS PR. In the next release (2022.3) of HASS the WiZ integration will be natively integrated and can be used without HACS or custom_components. The auto-discovery and timeout handling was also improved massively. Sockets/Smart Plugs now detected correctly too.
 
-Please stay tuned and look for the next upcoming release (>2022.2.3). Don't use HACS or the custom_component anymore. You have only search in the integration list for "WiZ".
+**Please stay tuned and look for the next release 2022.3.** Don't use HACS or the custom_component anymore. You have only search in the integration list for "WiZ".
 
 **This repository will not be updated and downstreamed from the HASS release for now.**
 
