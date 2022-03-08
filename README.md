@@ -8,6 +8,11 @@
 
 ### Thank you to all sponsors and supporter!
 
+### Link to the official Home Assistant integration page
+This project/repo was merged into the HASS core --> [Link to integration](https://www.home-assistant.io/integrations/wiz/)
+
+This repo will be archived. No future updates are committed here.
+
 ## :muscle: Change Log
 
 It is done - the PR to HASS core was merged! [@bdraco](https://github.com/bdraco) does a tone of improvements and contributes some incredible fixes to the integration.
